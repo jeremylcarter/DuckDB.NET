@@ -127,6 +127,16 @@ namespace DuckDB.NET.Data
 
         public override object GetValue(int ordinal)
         {
+            var column = queryResult.Columns[ordinal];
+
+            switch(column.Type)
+            {
+                case DuckDBType.DuckdbTypeInteger:
+                    return GetInt32(ordinal);
+                case DuckDBType.DuckdbTypeVarchar:
+                    return GetString(ordinal);
+            }
+
             throw new NotImplementedException();
         }
 
@@ -148,7 +158,11 @@ namespace DuckDB.NET.Data
 
         public override int RecordsAffected { get; }
 
-        public override bool HasRows { get; }
+        public override bool HasRows { get
+            {
+                return queryResult.RowCount > 0;
+            }
+        }
 
         public override bool IsClosed => closed;
 

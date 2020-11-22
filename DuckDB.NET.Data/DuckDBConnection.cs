@@ -12,6 +12,12 @@ namespace DuckDB.NET.Data
         private DuckDBDatabase duckDBDatabase;
         internal DuckDBNativeConnection NativeConnection;
 
+        public DuckDBConnection()
+        {
+            ConnectionString = "Data Source=:memory:";
+            inMemory = true;
+        }
+
         public DuckDBConnection(string connectionString)
         {
             ConnectionString = connectionString;

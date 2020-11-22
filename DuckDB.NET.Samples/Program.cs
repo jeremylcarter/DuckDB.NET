@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Common;
 using System.Diagnostics;
+using System.IO;
 using DuckDB.NET.Data;
 using static DuckDB.NET.Windows.NativeMethods;
 
@@ -10,6 +11,8 @@ namespace DuckDB.NET.Samples
     {
         static void Main(string[] args)
         {
+            File.Delete("file.db");
+
             AdoNetSamples();
 
             LowLevelBindingsSample();
@@ -94,8 +97,10 @@ namespace DuckDB.NET.Samples
             
             while (queryResult.Read())
             {
+                var x = queryResult.GetValue(0);
                 for (int ordinal = 0; ordinal < queryResult.FieldCount; ordinal++)
                 {
+                    
                     var val = queryResult.GetInt32(ordinal);
                     Console.Write(val);
                     Console.Write(" ");
